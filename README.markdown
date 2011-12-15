@@ -67,13 +67,18 @@ ruby-1.9.2-p290@lschallenge
 
 If you use rvm or something similar, you will have to bootstrap your gems.  You'll need to follow a command sequence similar to this:
 
-1. rvm 
+1. rvm gemset create 'lschallenge'
+1. gem install bundler
+1. bundle install
 
 In one terminal window, run the following commands:
  
 1. rake db:schema:load
 1. rake db:test:prepare
+1. rake spec
 1. thin start
+
+NOTE: running specs (step 3) is optional, but its comforting to know that the running system will likely work.
 
 In another terminal window, run the following:
 
@@ -86,4 +91,6 @@ Its self-explanatory for the most part, but here's some usage notes:
 1. Choose to Sign Up or Sign in through Google
 1. Upon sign in, you'll be redirected to the import page where you can import a file
 1. Uploads are processed asynchronously, so you'll have to refresh the page after the import to see the total
+
+Yes, I could have added some Javascript to auto-refresh a certain number of times so that you could have just sat and watched the page.  Sorry, I didn't.
 
