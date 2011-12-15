@@ -42,3 +42,48 @@ Evaluation of your submission will be based on the following criteria:
 1. Did your application fulfill the basic requirements?
 1. Did you document the method for setting up and running your application?
 1. Did you follow the instructions for submission?
+
+## Solution Overview
+A few notes on the solution:
+
+1. Two kinds of authorization: database (through registration) and through Google Account OpenID.
+1. Due to the long URLs required by the OpenID scheme, Webrick has been swapped out for Thin.
+1. The project description hints at normalizing the data and yet the data is mostly ill-suited to it.  However, I've attempted to normalize it, but doing so created some peculiarities.
+1. Customers are the purchaser, but are unique by name; thus a new customer is added every time a new name is encountered.
+1. The same is true of Merchants.
+1. Products are unique by description, but scoped to the merchant.
+1. Each line of data represents an Order with one Order Line Item.  However, Orders can handle more than one line item. 
+1. The upload processing is deferred to an asynchronous job; using Delayed Job.
+1. The result of processing is not immediately available after upload; a refresh link is provided to get the total.
+1. No handling is provided for failed jobs; this is a robustness probably beyond the intended scope of this project.
+1. There is ample test coverage, but not 100% test coverage; only enough to demonstrate RSpec familiarity.
+
+## Set up
+After cloning the project, you'll want to follow these instructions to get bootstrapped.
+
+Consider using rvm where you can use Ruby 1.9.2 and a custom gemset for the project.  My .rvmrc contains the following:
+
+ruby-1.9.2-p290@lschallenge
+
+If you use rvm or something similar, you will have to bootstrap your gems.  You'll need to follow a command sequence similar to this:
+
+1. rvm 
+
+In one terminal window, run the following commands:
+ 
+1. rake db:schema:load
+1. rake db:test:prepare
+1. thin start
+
+In another terminal window, run the following:
+
+1. rake jobs:work
+
+## Usage
+Its self-explanatory for the most part, but here's some usage notes:
+
+1. In the browser, go to:  http://localhost:3000
+1. Choose to Sign Up or Sign in through Google
+1. Upon sign in, you'll be redirected to the import page where you can import a file
+1. Uploads are processed asynchronously, so you'll have to refresh the page after the import to see the total
+

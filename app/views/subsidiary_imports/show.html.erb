@@ -1,0 +1,8 @@
+<h2>Subsidiary Import</h2>
+<% if @import.imported? -%>
+	<p>Gross revenue: <%= number_to_currency(@import.gross_revenue) %>	
+<% else -%>
+	<p>We are still processing the import.</p>
+	<p><%= link_to 'Click here to refresh the page', subsidiary_import_path(@import) %></p>
+<% end -%>
+<p><%= link_to 'Import another subsidiary', new_subsidiary_import_path %></p>
